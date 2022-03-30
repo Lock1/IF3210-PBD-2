@@ -1,61 +1,28 @@
 ﻿using UnityEngine;
 
-namespace Nightmare
+public class EnemyManager : MonoBehaviour
 {
-    public class EnemyManager : PausibleObject
+    public PlayerHealth playerHealth;
+    public GameObject enemy;
+    public float spawnTime = 3f;
+    public Transform[] spawnPoints;
+
+
+    void Start ()
     {
-        private PlayerHealth playerHealth;
-        public GameObject enemy;
-        public float spawnTime = 3f;
-        public Transform[] spawnPoints;
+        InvokeRepeating("Spawn", spawnTime, spawnTime);
+    }
 
-        private float timer;
-        private int spawned = 0;
 
-        void Start ()
+    void Spawn ()
+    {
+        if (playerHealth.currentHealth <= 0f)
         {
-            timer = spawnTime;
+            return;
         }
 
-        void OnEnable()
-        {
-            playerHealth = FindObjectOfType<PlayerHealth>();
-            StartPausible();
-        }
+        int spawnPointIndex = Random.Range (0, spawnPoints.Length);
+        Instantiate(enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
 
-        void OnDestroy()
-        {
-            StopPausible();
-        }
-
-        void Update()
-        {
-            if (isPaused)
-                return;
-
-            timer -= Time.deltaTime;
-            if (timer <= 0f)
-            {
-                Spawn();
-                timer = spawnTime;
-            }
-        }
-
-        void Spawn ()
-        {           
-            // If the player has no health left...
-            if(playerHealth.currentHealth <= 0f)
-            {
-                // ... exit the function.
-                return;
-            }
-
-            // Find a random index between zero and one less than the number of spawn points.
-            int spawnPointIndex = Random.Range (0, spawnPoints.Length);
-
-            // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
-            
-            Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
-        }
     }
 }

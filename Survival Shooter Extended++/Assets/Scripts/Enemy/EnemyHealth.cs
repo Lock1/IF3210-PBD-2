@@ -1,100 +1,80 @@
 ﻿using UnityEngine;
 
-namespace Nightmare
+public class EnemyHealth : MonoBehaviour
 {
-    public class EnemyHealth : MonoBehaviour
+    public int startingHealth = 100;
+    public int currentHealth;
+    public float sinkSpeed = 2.5f;
+    public int scoreValue = 10;
+    public AudioClip deathClip;
+
+
+    Animator anim;
+    AudioSource enemyAudio;
+    ParticleSystem hitParticles;
+    CapsuleCollider capsuleCollider;
+    bool isDead;
+    bool isSinking;
+
+
+    void Awake ()
     {
-        public int startingHealth = 100;
-        public float sinkSpeed = 2.5f;
-        public int scoreValue = 10;
-        public AudioClip deathClip;
+        anim = GetComponent <Animator> ();
+        enemyAudio = GetComponent <AudioSource> ();
+        hitParticles = GetComponentInChildren <ParticleSystem> ();
+        capsuleCollider = GetComponent <CapsuleCollider> ();
 
-        int currentHealth;
-        Animator anim;
-        AudioSource enemyAudio;
-        ParticleSystem hitParticles;
-        CapsuleCollider capsuleCollider;
-        EnemyMovement enemyMovement;
+        currentHealth = startingHealth;
+    }
 
-        void Awake ()
+
+    void Update ()
+    {
+        if (isSinking)
         {
-            anim = GetComponent <Animator> ();
-            enemyAudio = GetComponent <AudioSource> ();
-            hitParticles = GetComponentInChildren <ParticleSystem> ();
-            capsuleCollider = GetComponent <CapsuleCollider> ();
-            enemyMovement = this.GetComponent<EnemyMovement>();
+            transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
         }
+    }
 
-        void OnEnable()
+
+    public void TakeDamage (int amount, Vector3 hitPoint)
+    {
+        if (isDead)
+            return;
+
+        enemyAudio.Play ();
+
+        currentHealth -= amount;
+
+        hitParticles.transform.position = hitPoint;
+        hitParticles.Play();
+
+        if (currentHealth <= 0)
         {
-            currentHealth = startingHealth;
-            SetKinematics(false);
+            Death ();
         }
+    }
 
-        private void SetKinematics(bool isKinematic)
-        {
-            capsuleCollider.isTrigger = isKinematic;
-            capsuleCollider.attachedRigidbody.isKinematic = isKinematic;
-        }
 
-        void Update ()
-        {
-            if (IsDead())
-            {
-                transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
-                if (transform.position.y < -10f)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-        }
+    void Death ()
+    {
+        isDead = true;
 
-        public bool IsDead()
-        {
-            return (currentHealth <= 0f);
-        }
+        capsuleCollider.isTrigger = true;
 
-        public void TakeDamage (int amount, Vector3 hitPoint)
-        {
-            if (!IsDead())
-            {
-                enemyAudio.Play();
-                currentHealth -= amount;
+        anim.SetTrigger ("Dead");
 
-                if (IsDead())
-                {
-                    Death();
-                }
-                else
-                {
-                    enemyMovement.GoToPlayer();
-                }
-            }
-                
-            hitParticles.transform.position = hitPoint;
-            hitParticles.Play();
-        }
+        enemyAudio.clip = deathClip;
+        enemyAudio.Play ();
+    }
 
-        void Death ()
-        {
-            EventManager.TriggerEvent("Sound", this.transform.position);
-            anim.SetTrigger ("Dead");
 
-            enemyAudio.clip = deathClip;
-            enemyAudio.Play ();
-        }
-
-        public void StartSinking ()
-        {
-            GetComponent <UnityEngine.AI.NavMeshAgent> ().enabled = false;
-            SetKinematics(true);
-
-            ScoreManager.score += scoreValue;
-        }
-
-        public int CurrentHealth()
-        {
-            return currentHealth;
-        }
+    public void StartSinking ()
+    {
+        GetComponent<UnityEngine.AI.NavMeshAgent> ().enabled = false;
+        GetComponent<Rigidbody> ().isKinematic = true;
+        isSinking = true;
+        //ScoreManager.score += scoreValue;
+        Destroy (gameObject, 2f);
     }
 }
