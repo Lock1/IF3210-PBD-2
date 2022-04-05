@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MainMenu.unity
     guid: 5da82dedf6f98044188cf48fef72e4f5
+  - enabled: 1
+    path: Assets/Battleground.unity
+    guid: f0d228242c89e1f43a88fe69e1daed6e
   m_configObjects: {}
