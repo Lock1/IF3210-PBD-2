@@ -8,8 +8,10 @@ public class PlayerShooting : MonoBehaviour
 
     float timer;                                    
     Ray shootRay = new Ray();                                   
-    RaycastHit shootHit;                            
+    RaycastHit shootHit;    
+    RaycastHit shootHitOpaqueObj;                         
     int shootableMask;                             
+    int opaqueMask;
     ParticleSystem gunParticles;                    
     LineRenderer gunLine;                           
     AudioSource gunAudio;                           
@@ -19,6 +21,7 @@ public class PlayerShooting : MonoBehaviour
     void Awake()
     {
         shootableMask = LayerMask.GetMask("Shootable");
+        opaqueMask = LayerMask.GetMask("Opaque");
         gunParticles = GetComponent<ParticleSystem>();
         gunLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
@@ -58,9 +61,10 @@ public class PlayerShooting : MonoBehaviour
         gunParticles.Play();
 
         gunLine.enabled = true;
+        
         gunLine.SetPosition(0, transform.position);
 
-        shootRay.origin = transform.position;
+        shootRay.origin    = transform.position;
         shootRay.direction = transform.forward;
 
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
@@ -74,9 +78,9 @@ public class PlayerShooting : MonoBehaviour
 
             gunLine.SetPosition(1, shootHit.point);
         }
+        else if (Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask))
+            gunLine.SetPosition(1, shootHitOpaqueObj.point);
         else
-        {
-            gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
-        }
+            gunLine.SetPosition(1, transform.position + transform.forward * range);
     }
 }
