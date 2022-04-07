@@ -4,7 +4,11 @@ public class PlayerShooting : MonoBehaviour
 {
     public int damagePerShot = 20;                  
     public float timeBetweenBullets = 0.15f;        
-    public float range = 100f;                      
+    public float range = 100f;
+
+    public bool bouncing  = false;
+    public bool explosive = true;
+    public float explosionRadius = 10f;                      
 
     float timer;                                    
     Ray shootRay = new Ray();                                   
@@ -15,6 +19,7 @@ public class PlayerShooting : MonoBehaviour
     ParticleSystem gunParticles;                    
     LineRenderer gunLine;                           
     AudioSource gunAudio;                           
+    ParticleSystem explosionParticle;
     Light gunLight;                                 
     float effectsDisplayTime = 0.2f;                
 
@@ -23,6 +28,7 @@ public class PlayerShooting : MonoBehaviour
         shootableMask = LayerMask.GetMask("Shootable");
         opaqueMask = LayerMask.GetMask("Opaque");
         gunParticles = GetComponent<ParticleSystem>();
+        explosionParticle = GameObject.FindGameObjectWithTag("ExplosionAnim").GetComponent<ParticleSystem>();
         gunLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         gunLight = GetComponent<Light>();
@@ -47,10 +53,12 @@ public class PlayerShooting : MonoBehaviour
     {
         gunLine.enabled = false;
         gunLight.enabled = false;
+        explosionParticle.Stop();
     }
 
     void Shoot()
     {
+        // Normal shoot
         timer = 0f;
 
         gunAudio.Play();
@@ -82,5 +90,37 @@ public class PlayerShooting : MonoBehaviour
             gunLine.SetPosition(1, shootHitOpaqueObj.point);
         else
             gunLine.SetPosition(1, transform.position + transform.forward * range);
+        
+
+        // Explosive
+        if (explosive) {
+            explosionParticle.startSize = explosionRadius;
+            bool directHit = Physics.Raycast(shootRay, out shootHit, range, shootableMask);
+            bool explosion = Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask);
+
+            Collider[] enemyWithinRadius = Physics.OverlapSphere(shootHit.point, explosionRadius, shootableMask);
+            foreach (var enemy in enemyWithinRadius) {
+                if (enemy.GetType() == typeof(CapsuleCollider)) {
+                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                    enemyHealth.TakeDamage(damagePerShot, transform.position);
+                }
+            }
+
+            enemyWithinRadius = Physics.OverlapSphere(shootHitOpaqueObj.point, explosionRadius, shootableMask);
+            foreach (var enemy in enemyWithinRadius) {
+                if (enemy.GetType() == typeof(CapsuleCollider)) {
+                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                    enemyHealth.TakeDamage(damagePerShot, transform.position);
+                }
+            }
+        
+            if (directHit)
+                explosionParticle.transform.position = shootHit.point;
+            else if (explosion)
+                explosionParticle.transform.position = shootHitOpaqueObj.point;
+
+            if (directHit || explosion)
+                explosionParticle.Play();
+        }
     }
 }
