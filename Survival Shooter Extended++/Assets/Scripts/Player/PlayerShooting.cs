@@ -75,83 +75,88 @@ public class PlayerShooting : MonoBehaviour
 
         gunLine.enabled = true;
         
-        gunLine.SetPosition(0, transform.position);
-
+        int shootCount = 10;
+        gunLine.positionCount = shootCount * 2;
         shootRay.origin    = transform.position;
-        shootRay.direction = transform.forward;
 
+        for (int i = 0; i < shootCount; i++) {
+            gunLine.SetPosition(i*2, transform.position);
 
-        bool directHit = Physics.Raycast(shootRay, out shootHit, range, shootableMask);
-        bool wall      = Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask);
-        if (directHit)
-        {
-            EnemyHealth enemyHealth = shootHit.collider.GetComponent<EnemyHealth>();
+            shootRay.direction = Quaternion.Euler(0, 30*i - shootCount * 15, 0) * transform.forward;
 
-            if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(damagePerShot, shootHit.point);
-            }
-
-            gunLine.SetPosition(1, shootHit.point);
-        }
-        else if (wall)
-            gunLine.SetPosition(1, shootHitOpaqueObj.point);
-        else
-            gunLine.SetPosition(1, transform.position + transform.forward * range);
-        
-
-        // Explosive
-        if (explosive) {
-            explosionParticle.startSize = explosionRadius;
-
-            Collider[] enemyWithinRadius = Physics.OverlapSphere(shootHit.point, explosionRadius, shootableMask);
-            foreach (var enemy in enemyWithinRadius) {
-                if (enemy.GetType() == typeof(CapsuleCollider)) {
-                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                    enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
-                }
-            }
-
-            enemyWithinRadius = Physics.OverlapSphere(shootHitOpaqueObj.point, explosionRadius, shootableMask);
-            foreach (var enemy in enemyWithinRadius) {
-                if (enemy.GetType() == typeof(CapsuleCollider)) {
-                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                    enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
-                }
-            }
-        
+            bool directHit = Physics.Raycast(shootRay, out shootHit, range, shootableMask);
+            bool wall      = Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask);
             if (directHit)
-                explosionParticle.transform.position = shootHit.point;
+            {
+                EnemyHealth enemyHealth = shootHit.collider.GetComponent<EnemyHealth>();
+
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(damagePerShot, shootHit.point);
+                }
+
+                gunLine.SetPosition(1 + 2*i, shootHit.point);
+            }
             else if (wall)
-                explosionParticle.transform.position = shootHitOpaqueObj.point;
-
-            // if (explosive && (directHit || wall))
-            //     explosionParticle.Play();
-        }
-
-        if (bouncing) {
-            gunLine.positionCount = 2 + bounceCount;
+                gunLine.SetPosition(1 + 2*i, shootHitOpaqueObj.point);
+            else
+                gunLine.SetPosition(1 + 2*i, shootRay.origin + shootRay.direction * range);
             
-            int currentBounceCount = 0;
-            Collider[] enemyWithinRadius = Physics.OverlapSphere(shootHit.point, bounceRadius, shootableMask);
-            foreach (var enemy in enemyWithinRadius) {
-                if (currentBounceCount < bounceCount && enemy.GetType() == typeof(CapsuleCollider)) {
-                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                    enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
-                    gunLine.SetPosition(2 + currentBounceCount, enemy.transform.position);
-                    currentBounceCount++;
+
+            // Explosive
+            if (explosive) {
+                explosionParticle.startSize = explosionRadius;
+
+                Collider[] enemyWithinRadius = Physics.OverlapSphere(shootHit.point, explosionRadius, shootableMask);
+                foreach (var enemy in enemyWithinRadius) {
+                    if (enemy.GetType() == typeof(CapsuleCollider)) {
+                        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                        enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
+                    }
                 }
+
+                enemyWithinRadius = Physics.OverlapSphere(shootHitOpaqueObj.point, explosionRadius, shootableMask);
+                foreach (var enemy in enemyWithinRadius) {
+                    if (enemy.GetType() == typeof(CapsuleCollider)) {
+                        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                        enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
+                    }
+                }
+            
+                if (directHit)
+                    explosionParticle.transform.position = shootHit.point;
+                else if (wall)
+                    explosionParticle.transform.position = shootHitOpaqueObj.point;
+
+                if (explosive && (directHit || wall))
+                    explosionParticle.Play();
             }
 
-            enemyWithinRadius = Physics.OverlapSphere(shootHitOpaqueObj.point, bounceRadius, shootableMask);
-            foreach (var enemy in enemyWithinRadius) {
-                if (currentBounceCount < bounceCount && enemy.GetType() == typeof(CapsuleCollider)) {
-                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                    enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
-                    gunLine.SetPosition(2 + currentBounceCount, enemy.transform.position);
-                    currentBounceCount++;
+            if (bouncing) {
+                gunLine.positionCount = 2 + bounceCount;
+                
+                int currentBounceCount = 0;
+                Collider[] enemyWithinRadius = Physics.OverlapSphere(shootHit.point, bounceRadius, shootableMask);
+                foreach (var enemy in enemyWithinRadius) {
+                    if (currentBounceCount < bounceCount && enemy.GetType() == typeof(CapsuleCollider)) {
+                        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                        enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
+                        gunLine.SetPosition(2 + currentBounceCount, enemy.transform.position);
+                        currentBounceCount++;
+                    }
+                }
+
+                enemyWithinRadius = Physics.OverlapSphere(shootHitOpaqueObj.point, bounceRadius, shootableMask);
+                foreach (var enemy in enemyWithinRadius) {
+                    if (currentBounceCount < bounceCount && enemy.GetType() == typeof(CapsuleCollider)) {
+                        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                        enemyHealth.TakeDamage(damagePerShot, enemy.transform.position);
+                        gunLine.SetPosition(2 + currentBounceCount, enemy.transform.position);
+                        currentBounceCount++;
+                    }
                 }
             }
         }
+
     }
 }
