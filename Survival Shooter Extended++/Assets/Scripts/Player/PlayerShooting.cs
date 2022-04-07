@@ -41,6 +41,7 @@ public class PlayerShooting : MonoBehaviour
     {
         GameObject exp = transform.Find("Explosion").gameObject;
         exp.SetActive(explosive);
+        PowerManager.power = damagePerShot;
         timer += Time.deltaTime;
 
         if (Input.GetButton("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
@@ -82,7 +83,7 @@ public class PlayerShooting : MonoBehaviour
         for (int i = 0; i < shootCount; i++) {
             gunLine.SetPosition(i*2, transform.position);
 
-            shootRay.direction = Quaternion.Euler(0, 30*i - shootCount * 15, 0) * transform.forward;
+            shootRay.direction = Quaternion.Euler(0, 15*i - shootCount * 7.5f, 0) * transform.forward;
 
             bool directHit = Physics.Raycast(shootRay, out shootHit, range, shootableMask);
             bool wall      = Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask);

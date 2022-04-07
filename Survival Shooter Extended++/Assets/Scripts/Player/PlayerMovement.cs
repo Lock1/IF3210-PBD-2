@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        SpeedManager.speed = (int) speed;
+
         // Mendapatkan nilai input horizontal
         float h = Input.GetAxisRaw("Horizontal");
         
