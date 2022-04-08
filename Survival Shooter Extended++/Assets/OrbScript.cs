@@ -73,11 +73,22 @@ public class OrbScript : MonoBehaviour
     
     private bool healthUp() {
         PlayerHealth healthStat = player.GetComponentInChildren<PlayerHealth>();
-        if (healthStat.currentHealth + 20 <= 100) {
-            healthStat.currentHealth += 20;
+
+        if (healthStat.startingHealth < 500) {
+            healthStat.startingHealth += 20;
+            healthStat.currentHealth  += 20;
+            return true;
+        } else if (healthStat.startingHealth > healthStat.currentHealth) {
+            if (healthStat.currentHealth + 20 > healthStat.startingHealth)
+                healthStat.currentHealth = healthStat.startingHealth;
+            else
+                healthStat.currentHealth += 20;
             return true;
         }
-        else
-            return false;
+
+        
+
+
+        return false;
     }
 }

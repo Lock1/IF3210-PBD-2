@@ -21,8 +21,8 @@ public class ScoreManager : MonoBehaviour
 
     void Update ()
     {
-        if (mode == "Zezn") {
-            text.text = string.Format("{0}:{1}", (int) survivalDuration / 60, survivalDuration % 60f);
+        if (mode == "Zen") {
+            text.text = string.Format("{0}:{1}", (int) survivalDuration / 60, (int) survivalDuration % 60f);
         }
         else {
 

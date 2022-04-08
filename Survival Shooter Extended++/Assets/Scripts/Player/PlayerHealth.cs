@@ -36,6 +36,10 @@ public class PlayerHealth : MonoBehaviour
     {
         survivalDuration += Time.deltaTime;
         ScoreManager.survivalDuration = survivalDuration;
+        healthSlider.maxValue = startingHealth;
+        healthSlider.value = currentHealth;
+        HPManager.hp = currentHealth;
+        HPManager.maxhp = startingHealth;
 
         if (damaged)
         {
@@ -46,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
         
-        healthSlider.value = currentHealth;
+        
 
         damaged = false;
     }
