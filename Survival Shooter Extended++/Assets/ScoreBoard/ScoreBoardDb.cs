@@ -9,6 +9,8 @@ public class ScoreBoardDb : MonoBehaviour
 {
     private string dbName = "URI=file:Scoreboard.db";
     public GameObject panel;
+    public Sprite image;
+    public ScrollRect scroll;
 
 
     // Start is called before the first frame update
@@ -68,9 +70,21 @@ public class ScoreBoardDb : MonoBehaviour
 
                 rect.AddComponent<Image>();
 
+                rect.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(500, 100);
+
+                rect.GetComponent<Image>().sprite = image;
+
+                rect.GetComponent<Image>().rectTransform.localScale = new Vector3(1, 1, 1);
+
                 Debug.Log("Name: " + reader["name"] + "\t Score" + reader["score"]);
+
+                // TODO: add text and score
+
                 i++;
             }
+
+            // scrolling to top
+            scroll.normalizedPosition = new Vector2(0, 1);
 
             reader.Close();
         }
