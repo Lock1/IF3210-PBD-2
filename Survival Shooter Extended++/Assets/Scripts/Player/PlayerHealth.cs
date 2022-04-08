@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Mono.Data.Sqlite;
+using System.Data;
 using UnityEngine.UI;
-using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
+    private string dbName = "URI=file:Scoreboard.db";
     public int startingHealth = 100;
     public int currentHealth;
     public Slider healthSlider;
@@ -17,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
     Animator anim;
     AudioSource playerAudio;
     PlayerMovement playerMovement;
-    //PlayerShooting playerShooting;
+    PlayerShooting playerShooting;
     bool isDead;                                                
     bool damaged;                                               
 
@@ -26,11 +30,24 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
         playerMovement = GetComponent<PlayerMovement>();
-        //playerShooting = GetComponentInChildren<PlayerShooting>();
+        playerShooting = GetComponentInChildren<PlayerShooting>();
         survivalDuration = 0f;
         currentHealth = startingHealth;
     }
 
+    public void InsertZenScore(string name, string time)
+    {
+        using var connection = new SqliteConnection(dbName);
+        connection.Open();
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = "INSERT INTO zen_scoreboards (name, time) VALUES ('" + name + "', '" + time + "');";
+            command.ExecuteNonQuery();
+        }
+
+        connection.Close();
+    }
 
     void Update()
     {
@@ -77,7 +94,7 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
 
-        //playerShooting.DisableEffects();
+        playerShooting.DisableEffects();
 
         anim.SetTrigger("Die");
 
@@ -85,6 +102,8 @@ public class PlayerHealth : MonoBehaviour
         playerAudio.Play();
 
         playerMovement.enabled = false;
-        //playerShooting.enabled = false;
+        playerShooting.enabled = false;
+
+        InsertZenScore(PlayerPrefs.GetString("NICKNAME"), ((int) survivalDuration / 60) + ":" + ((int) survivalDuration % 60));
     }
 }

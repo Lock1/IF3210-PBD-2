@@ -65,7 +65,7 @@ public class Explode : MonoBehaviour
         if(playerHealth.currentHealth <= 0)
         {
             // ... tell the animator the player is dead.
-            anim.SetTrigger ("PlayerDead");
+            // anim.SetTrigger ("PlayerDead");
         }
     }
 
