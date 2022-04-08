@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
+using UnityEngine.UI;
 
 public class ScoreBoardDb : MonoBehaviour
 {
     private string dbName = "URI=file:Scoreboard.db";
+    public GameObject panel;
+
 
     // Start is called before the first frame update
     void Start()
     {
         // DeleteTable();
         CreateTable();
-        InsertScore("Test", 20);
+        /*InsertScore("Test", 20);*/
         ShowScoreBoards();
     }
 
@@ -55,9 +58,18 @@ public class ScoreBoardDb : MonoBehaviour
             command.CommandText = "SELECT * FROM scoreboards;";
 
             using IDataReader reader = command.ExecuteReader();
+            int i = 1;
             while (reader.Read())
             {
+                // add gameobject
+                GameObject rect = new GameObject("scoreboard" + i);
+
+                rect.transform.SetParent(panel.transform);
+
+                rect.AddComponent<Image>();
+
                 Debug.Log("Name: " + reader["name"] + "\t Score" + reader["score"]);
+                i++;
             }
 
             reader.Close();
