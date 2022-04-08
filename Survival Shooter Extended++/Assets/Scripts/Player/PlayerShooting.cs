@@ -76,7 +76,7 @@ public class PlayerShooting : MonoBehaviour
 
         gunLine.enabled = true;
         
-        int shootCount = 10;
+        int shootCount = 1;
         gunLine.positionCount = shootCount * 2;
         shootRay.origin    = transform.position;
 
