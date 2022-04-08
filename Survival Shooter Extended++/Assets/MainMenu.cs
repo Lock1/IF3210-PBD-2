@@ -15,6 +15,16 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
     }
 
+    public void ShowZenScoreBoard ()
+    {
+        Debug.Log("Zen Scoreboard");
+    }
+
+    public void ShowWaveScoreBoard ()
+    {
+        Debug.Log("Wave Scoreboard");
+    }
+
     public void QuitGame ()
     {
         Debug.Log("QUIT");
