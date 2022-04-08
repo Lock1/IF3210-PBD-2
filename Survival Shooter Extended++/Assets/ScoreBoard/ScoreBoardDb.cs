@@ -11,6 +11,7 @@ public class ScoreBoardDb : MonoBehaviour
     public GameObject panel;
     public Sprite image;
     public ScrollRect scroll;
+    public Font font;
 
 
     // Start is called before the first frame update
@@ -66,6 +67,8 @@ public class ScoreBoardDb : MonoBehaviour
                 // add gameobject
                 GameObject rect = new GameObject("scoreboard" + i);
 
+                
+
                 rect.transform.SetParent(panel.transform);
 
                 rect.AddComponent<Image>();
@@ -75,6 +78,10 @@ public class ScoreBoardDb : MonoBehaviour
                 rect.GetComponent<Image>().sprite = image;
 
                 rect.GetComponent<Image>().rectTransform.localScale = new Vector3(1, 1, 1);
+
+                addNameObject(rect, i, reader);
+
+                addScoreObject(rect, i, reader);
 
                 Debug.Log("Name: " + reader["name"] + "\t Score" + reader["score"]);
 
@@ -104,6 +111,52 @@ public class ScoreBoardDb : MonoBehaviour
         }
 
         connection.Close();
+    }
+
+    public void addNameObject(GameObject rect, int i, IDataReader reader)
+    {
+        GameObject name = new GameObject("name-" + i);
+
+        name.AddComponent<Text>();
+
+        name.transform.SetParent(rect.transform);
+
+        name.GetComponent<Text>().rectTransform.sizeDelta = new Vector2(286, 53);
+
+        name.GetComponent<Text>().rectTransform.localScale = new Vector3(1, 1, 1);
+
+        float y = name.GetComponent<Text>().transform.position.y;
+
+        name.GetComponent<Text>().transform.position = new Vector3(-113, y-14, 0);
+
+        name.GetComponent<Text>().text = reader["name"].ToString();
+        
+        name.GetComponent<Text>().font = font;
+
+        name.GetComponent<Text>().fontSize = 30;
+    }
+
+    public void addScoreObject(GameObject rect, int i, IDataReader reader)
+    {
+        GameObject name = new GameObject("score-" + i);
+
+        name.AddComponent<Text>();
+
+        name.transform.SetParent(rect.transform);
+
+        name.GetComponent<Text>().rectTransform.sizeDelta = new Vector2(120, 53);
+
+        name.GetComponent<Text>().rectTransform.localScale = new Vector3(1, 1, 1);
+
+        float y = name.GetComponent<Text>().transform.position.y;
+
+        name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
+
+        name.GetComponent<Text>().text = reader["score"].ToString();
+        
+        name.GetComponent<Text>().font = font;
+
+        name.GetComponent<Text>().fontSize = 30;
     }
 
     // Update is called once per frame
