@@ -5,17 +5,31 @@ using UnityEngine;
 public class OrbScript : MonoBehaviour
 {
     public string type;
+    public float orbAliveDuration;
 
+    Light light;
     GameObject player;
+    float timer;
+    int lastSecond = 0;
+
     // Start is called before the first frame update
     void Start() {
+        timer = 0f;
         player = GameObject.FindGameObjectWithTag ("Player");
-        // TODO : Decay
+        light = GetComponent<Light>();
     }
 
     // Update is called once per frame
     void Update() {
+        timer += Time.deltaTime;
         
+        if ((int) timer > lastSecond) {
+            light.intensity -= 0.5f;
+            lastSecond++;
+        }
+
+        if (timer > orbAliveDuration)
+            Destroy(gameObject, 0f);
     }
 
     void OnTriggerEnter (Collider other)
@@ -24,29 +38,46 @@ public class OrbScript : MonoBehaviour
         if(other.gameObject == player)
         {
             // ... the player is in range.
+            bool success = false;
             if (type == "Power")
-                powerUp();
+                success = powerUp();
             else if (type == "Speed")
-                speedUp();
+                success = speedUp();
             else if (type == "Health")
-                healthUp();
-            Destroy(gameObject, 0f);
+                success = healthUp();
+
+            if (success)
+                Destroy(gameObject, 0f);
         }
     }
 
-    private void powerUp() {
-        // TODO : Limiter
+    private bool powerUp() {
         PlayerShooting gunStat = player.GetComponentInChildren<PlayerShooting>();
-        gunStat.damagePerShot += 10;
+        if (gunStat.damagePerShot + 10 <= 100) {
+            gunStat.damagePerShot += 10;
+            return true;
+        }
+        else
+            return false;
     }
 
-    private void speedUp() {
+    private bool speedUp() {
         PlayerMovement moveStat = player.GetComponentInChildren<PlayerMovement>();
-        moveStat.speed += 1;
+        if (moveStat.speed + 1 <= 12) {
+            moveStat.speed += 1;
+            return true;
+        }
+        else
+            return false;
     }
     
-    private void healthUp() {
+    private bool healthUp() {
         PlayerHealth healthStat = player.GetComponentInChildren<PlayerHealth>();
-        healthStat.currentHealth += 20;
+        if (healthStat.currentHealth + 20 <= 100) {
+            healthStat.currentHealth += 20;
+            return true;
+        }
+        else
+            return false;
     }
 }
