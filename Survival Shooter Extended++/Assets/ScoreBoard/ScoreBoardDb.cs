@@ -18,19 +18,34 @@ public class ScoreBoardDb : MonoBehaviour
     void Start()
     {
         // DeleteTable();
-        CreateTable();
-        /*InsertScore("Test", 20);*/
+        CreateZenTable();
+        CreateWaveTable();
+        /*InsertZenScore("Test", "20:00");*/
         ShowScoreBoards();
     }
 
-    public void CreateTable()
+    public void CreateZenTable()
     {
         using var connection = new SqliteConnection(dbName);
         connection.Open();
 
         using (var command = connection.CreateCommand())
         {
-            command.CommandText = "CREATE TABLE IF NOT EXISTS scoreboards (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), score INT);";
+            command.CommandText = "CREATE TABLE IF NOT EXISTS zen_scoreboards (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), time VARCHAR(255));";
+            command.ExecuteNonQuery();
+        }
+
+        connection.Close();
+    }
+
+    public void CreateWaveTable()
+    {
+        using var connection = new SqliteConnection(dbName);
+        connection.Open();
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = "CREATE TABLE IF NOT EXISTS wave_scoreboards (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), num_wave INT, score INT);";
             command.ExecuteNonQuery();
         }
 
@@ -58,7 +73,7 @@ public class ScoreBoardDb : MonoBehaviour
 
         using (var command = connection.CreateCommand())
         {
-            command.CommandText = "SELECT * FROM scoreboards;";
+            command.CommandText = "SELECT * FROM zen_scoreboards;";
 
             using IDataReader reader = command.ExecuteReader();
             int i = 1;
@@ -66,8 +81,6 @@ public class ScoreBoardDb : MonoBehaviour
             {
                 // add gameobject
                 GameObject rect = new GameObject("scoreboard" + i);
-
-                
 
                 rect.transform.SetParent(panel.transform);
 
@@ -81,9 +94,7 @@ public class ScoreBoardDb : MonoBehaviour
 
                 addNameObject(rect, i, reader);
 
-                addScoreObject(rect, i, reader);
-
-                Debug.Log("Name: " + reader["name"] + "\t Score" + reader["score"]);
+                addTimeObject(rect, i, reader);
 
                 // TODO: add text and score
 
@@ -99,14 +110,14 @@ public class ScoreBoardDb : MonoBehaviour
         connection.Close();
     }
 
-    public void InsertScore(string name, int score)
+    public void InsertZenScore(string name, string time)
     {
         using var connection = new SqliteConnection(dbName);
         connection.Open();
 
         using (var command = connection.CreateCommand())
         {
-            command.CommandText = "INSERT INTO scoreboards (name, score) VALUES ('" + name + "', '" + score + "');";
+            command.CommandText = "INSERT INTO zen_scoreboards (name, time) VALUES ('" + name + "', '" + time + "');";
             command.ExecuteNonQuery();
         }
 
@@ -136,9 +147,9 @@ public class ScoreBoardDb : MonoBehaviour
         name.GetComponent<Text>().fontSize = 30;
     }
 
-    public void addScoreObject(GameObject rect, int i, IDataReader reader)
+    public void addTimeObject(GameObject rect, int i, IDataReader reader)
     {
-        GameObject name = new GameObject("score-" + i);
+        GameObject name = new GameObject("time-" + i);
 
         name.AddComponent<Text>();
 
@@ -152,7 +163,7 @@ public class ScoreBoardDb : MonoBehaviour
 
         name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
 
-        name.GetComponent<Text>().text = reader["score"].ToString();
+        name.GetComponent<Text>().text = reader["time"].ToString();
         
         name.GetComponent<Text>().font = font;
 
