@@ -5,8 +5,9 @@ using System.Collections;
 public class ScoreManager : MonoBehaviour
 {
     public static int score;
-
-
+    public string mode;
+    public static float survivalDuration;
+    public static int wave;
     Text text;
 
 
@@ -14,11 +15,18 @@ public class ScoreManager : MonoBehaviour
     {
         text = GetComponent <Text> ();
         score = 0;
+        wave = 1;
     }
 
 
     void Update ()
     {
-        text.text = "Score: " + score;
+        if (mode == "Zezn") {
+            text.text = string.Format("{0}:{1}", (int) survivalDuration / 60, survivalDuration % 60f);
+        }
+        else {
+
+            text.text = "Wave " + wave + " / Score " + score;
+        }
     }
 }

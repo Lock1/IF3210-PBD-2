@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+    public float survivalDuration;
 
 
     Animator anim;
@@ -20,20 +21,22 @@ public class PlayerHealth : MonoBehaviour
     bool isDead;                                                
     bool damaged;                                               
 
-
     void Awake()
     {
         anim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
         playerMovement = GetComponent<PlayerMovement>();
         //playerShooting = GetComponentInChildren<PlayerShooting>();
-
+        survivalDuration = 0f;
         currentHealth = startingHealth;
     }
 
 
     void Update()
     {
+        survivalDuration += Time.deltaTime;
+        ScoreManager.survivalDuration = survivalDuration;
+
         if (damaged)
         {
             damageImage.color = flashColour;
@@ -42,6 +45,8 @@ public class PlayerHealth : MonoBehaviour
         {
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
+        
+        healthSlider.value = currentHealth;
 
         damaged = false;
     }
@@ -53,7 +58,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= amount;
 
-        healthSlider.value = currentHealth;
+        
 
         playerAudio.Play();
 

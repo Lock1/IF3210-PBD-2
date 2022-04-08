@@ -20,16 +20,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        SpeedManager.speed = (int) speed;
+
         // Mendapatkan nilai input horizontal
         float h = Input.GetAxisRaw("Horizontal");
         
         // Mendapatkan nilai input vertical
         float v = Input.GetAxisRaw("Vertical");
 
-        // Mendapatkan nilai jump
-        float a = Input.GetAxisRaw("Jump");
-
-        Move(h, a, v);
+        Move(h, v);
         Turning();
     }
 
@@ -55,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Method player dapat berjalan
-    void Move(float h, float a, float v) {
+    void Move(float h, float v) {
         // Animasi
         anim.SetBool("IsWalking", h != 0f || v != 0f);
 
         //Set nilai x dan y
-        movement.Set(h, a, v);
+        movement.Set(h, 0f, v);
         
         //Menormalisasi nilai vector agar total panjang dari vector adalah 1
         movement = movement.normalized * speed * Time.deltaTime;
