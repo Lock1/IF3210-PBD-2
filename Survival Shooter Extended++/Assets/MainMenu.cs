@@ -1,21 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayZen ()
+    public GameObject playerName;
+
+    public void PlayZen()
     {
+        GetName();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void PlayWave ()
+    public void PlayWave()
     {
+        GetName();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
     }
 
-    public void QuitGame ()
+    public void GetName()
+    {
+        string pName = playerName.GetComponent<TMP_InputField>().text;
+        if (string.IsNullOrEmpty(pName) || string.IsNullOrWhiteSpace(pName))
+        {
+            pName = "Anonymous User";
+        }
+        PlayerPrefs.SetString("NICKNAME", pName);
+    }
+
+    public void QuitGame()
     {
         Debug.Log("QUIT");
         Application.Quit();
