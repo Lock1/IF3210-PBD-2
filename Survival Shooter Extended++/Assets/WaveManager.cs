@@ -62,7 +62,7 @@ public class WaveManager : MonoBehaviour
             }
 
             currentWave++;
-            if (currentWave % 4 == 0)
+            if (currentWave % 3 == 0)
                 PlayerHealth.upgradeAvail++;
         }
         ScoreManager.wave = currentWave;

@@ -14,8 +14,8 @@ public class ScoreManager : MonoBehaviour
     void Awake ()
     {
         text = GetComponent <Text> ();
-        score = 0;
-        wave = 1;
+        // score = 0;
+        // wave = 1;
     }
 
 

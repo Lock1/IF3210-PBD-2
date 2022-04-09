@@ -17,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
     public float survivalDuration;
     bool updating = true;
+    public string type;
 
     int lastMinute = 0;
 
@@ -71,9 +72,11 @@ public class PlayerHealth : MonoBehaviour
 
         if ((int) survivalDuration / 60 > lastMinute) {
             lastMinute++;
-            upgradeAvail++;
-            upUI.SetActive(true);
+            if (type == "Zen")
+                upgradeAvail++;
         }
+        if (upgradeAvail > 0)
+            upUI.SetActive(true);
 
         if (damaged)
         {
