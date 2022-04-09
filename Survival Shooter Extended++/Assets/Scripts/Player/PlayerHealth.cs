@@ -17,7 +17,11 @@ public class PlayerHealth : MonoBehaviour
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
     public float survivalDuration;
 
+    int lastMinute = 0;
 
+    public static int upgradeAvail = 0;
+
+    GameObject upUI;
     Animator anim;
     AudioSource playerAudio;
     PlayerMovement playerMovement;
@@ -33,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
         playerShooting = GetComponentInChildren<PlayerShooting>();
         survivalDuration = 0f;
         currentHealth = startingHealth;
+        upUI = GameObject.FindGameObjectWithTag("UpgradeUI");
     }
 
     public void InsertZenScore(string name, string time)
@@ -57,6 +62,12 @@ public class PlayerHealth : MonoBehaviour
         healthSlider.value = currentHealth;
         HPManager.hp = currentHealth;
         HPManager.maxhp = startingHealth;
+
+        if ((int) survivalDuration / 60 > lastMinute) {
+            lastMinute++;
+            upgradeAvail++;
+            upUI.SetActive(true);
+        }
 
         if (damaged)
         {
