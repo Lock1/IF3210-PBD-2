@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
+
 
 public class Explode : MonoBehaviour
 {
@@ -78,6 +80,10 @@ public class Explode : MonoBehaviour
         {
             // ... damage the player.
             playerHealth.TakeDamage (attackDamage);
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+            Vector3 forceVector = player.transform.position - transform.position;
+            rb.AddForce(forceVector * 500);
+
             Destroy(gameObject, 0f);
         }
     }
