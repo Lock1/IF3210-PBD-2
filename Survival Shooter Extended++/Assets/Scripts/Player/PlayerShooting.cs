@@ -80,10 +80,12 @@ public class PlayerShooting : MonoBehaviour
         gunLine.positionCount = shootCount * 2;
         shootRay.origin    = transform.position;
 
+        shootRay.origin.Set(shootRay.origin.x, 0f, shootRay.origin.z);
+
         for (int i = 0; i < shootCount; i++) {
             gunLine.SetPosition(i*2, transform.position);
 
-            shootRay.direction = Quaternion.Euler(0, 15*i - shootCount * 7.5f, 0) * transform.forward;
+            shootRay.direction = Quaternion.Euler(0, 15*i - shootCount * 7.5f + 7.5f, 0) * transform.forward;
 
             bool directHit = Physics.Raycast(shootRay, out shootHit, range, shootableMask);
             bool wall      = Physics.Raycast(shootRay, out shootHitOpaqueObj, range, opaqueMask);

@@ -183,7 +183,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.48
+  m_Radius: 0.54
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0.06, y: 0.71, z: 0}
@@ -347,6 +347,7 @@ MonoBehaviour:
   currentHealth: 0
   sinkSpeed: 2.5
   scoreValue: 10
+  type: 
   deathClip: {fileID: 8300000, guid: 1d3bfb9269f136947bf8ac164cace1ff, type: 3}
 --- !u!1001 &684844847994602880
 PrefabInstance:

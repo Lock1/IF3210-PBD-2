@@ -22,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
 
     public static int upgradeAvail = 0;
 
+    GameObject gameover;
     GameObject upUI;
     Animator anim;
     AudioSource playerAudio;
@@ -32,6 +33,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
+        gameover = GameObject.FindGameObjectWithTag("GameOverScreen");
+        gameover.SetActive(false);
         anim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -118,6 +121,8 @@ public class PlayerHealth : MonoBehaviour
 
         playerMovement.enabled = false;
         playerShooting.enabled = false;
+        
+        gameover.SetActive(true);
 
         InsertZenScore(PlayerPrefs.GetString("NICKNAME"), ((int) survivalDuration / 60) + ":" + ((int) survivalDuration % 60));
     }

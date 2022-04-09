@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ExplosionAnim
   - UpgradeUI
+  - GameOverScreen
   layers:
   - Default
   - TransparentFX
