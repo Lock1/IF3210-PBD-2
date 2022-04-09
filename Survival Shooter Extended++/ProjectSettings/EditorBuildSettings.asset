@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Battleground.unity
     guid: f0d228242c89e1f43a88fe69e1daed6e
+  - enabled: 1
+    path: Assets/ScoreBoard/ZenScoreBoard.unity
+    guid: 305a06de260720744b880a3ce6531237
   m_configObjects: {}

@@ -12,13 +12,13 @@ public class MainMenu : MonoBehaviour
     public void PlayZen()
     {
         GetName();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(1);
     }
 
     public void PlayWave()
     {
         GetName();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        /*SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);*/
     }
 
     public void ShowZenScoreBoard ()
@@ -28,7 +28,14 @@ public class MainMenu : MonoBehaviour
 
     public void ShowWaveScoreBoard ()
     {
+        SceneManager.LoadScene(2);
         Debug.Log("Wave Scoreboard");
+    }
+
+    public void ShowMainMenu ()
+    {
+        Debug.Log("asdas");
+        SceneManager.LoadScene(0);
     }
 
     public void GetName()
