@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public int currentHealth;
     public float sinkSpeed = 2.5f;
     public int scoreValue = 10;
+    public string type;
     public AudioClip deathClip;
 
 
@@ -24,7 +25,11 @@ public class EnemyHealth : MonoBehaviour
         hitParticles = GetComponentInChildren <ParticleSystem> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
-        currentHealth = startingHealth;
+        if (type == "Boss") {
+            currentHealth = ((int) ScoreManager.survivalDuration / 60 - 1) * 1000 + startingHealth;
+        }
+        else
+            currentHealth = startingHealth;
     }
 
 
@@ -64,6 +69,9 @@ public class EnemyHealth : MonoBehaviour
 
         anim.SetTrigger ("Dead");
 
+        if (type == "Boss") {
+            // TODO : Trigger power up
+        }
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }

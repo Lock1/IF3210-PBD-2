@@ -5,6 +5,7 @@ public class PlayerShooting : MonoBehaviour
     public int damagePerShot = 20;                  
     public float timeBetweenBullets = 0.15f;        
     public float range = 100f;
+    public int shootCount = 30;
 
     public bool bouncing  = true;
     public float bounceRadius = 100f;                      
@@ -76,7 +77,6 @@ public class PlayerShooting : MonoBehaviour
 
         gunLine.enabled = true;
         
-        int shootCount = 1;
         gunLine.positionCount = shootCount * 2;
         shootRay.origin    = transform.position;
 

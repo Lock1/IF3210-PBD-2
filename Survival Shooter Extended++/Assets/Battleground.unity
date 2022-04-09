@@ -5309,10 +5309,11 @@ MonoBehaviour:
   damagePerShot: 20
   timeBetweenBullets: 0.2
   range: 100
+  shootCount: 5
   bouncing: 0
   bounceRadius: 100
   bounceCount: 5
-  explosive: 1
+  explosive: 0
   explosionRadius: 10
 --- !u!82 &266875604
 AudioSource:

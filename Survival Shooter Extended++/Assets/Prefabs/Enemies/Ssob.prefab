@@ -346,7 +346,8 @@ MonoBehaviour:
   startingHealth: 1000
   currentHealth: 0
   sinkSpeed: 2.5
-  scoreValue: 100
+  scoreValue: 500
+  type: Boss
   deathClip: {fileID: 8300000, guid: 1d3bfb9269f136947bf8ac164cace1ff, type: 3}
 --- !u!1001 &1394390991557309520
 PrefabInstance:
