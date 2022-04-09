@@ -10,8 +10,8 @@ public class PlayerShooting : MonoBehaviour
     public bool bouncing  = true;
     public float bounceRadius = 100f;                      
     public int bounceCount = 5;
-    public bool explosive = false;
-    public float explosionRadius = 10f;
+    public static bool explosive = false;
+    public static float explosionRadius = 10f;
 
     float timer;                                    
     Ray shootRay = new Ray();                                   

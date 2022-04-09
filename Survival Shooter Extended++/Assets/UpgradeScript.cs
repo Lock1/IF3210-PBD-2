@@ -18,6 +18,12 @@ public class UpgradeScript : MonoBehaviour
         PlayerHealth.upgradeAvail--;
     }
 
+    public void upgradeExplode() {
+        PlayerShooting.explosive = true;
+        PlayerShooting.explosionRadius += 1f;
+        PlayerHealth.upgradeAvail--;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +31,10 @@ public class UpgradeScript : MonoBehaviour
         upgradeButton = GetComponent<Button>();
         if (type == "AS")
             upgradeButton.onClick.AddListener(upgradeAttackSpeed);
-        else
+        else if (type == "Multi")
             upgradeButton.onClick.AddListener(upgradeShootCount);
+        else
+            upgradeButton.onClick.AddListener(upgradeExplode);
     }
 
     // Update is called once per frame
