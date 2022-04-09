@@ -3,9 +3,9 @@
 public class PlayerShooting : MonoBehaviour
 {
     public int damagePerShot = 20;                  
-    public float timeBetweenBullets = 0.15f;        
+    public static float timeBetweenBullets = 0.2f;        
     public float range = 100f;
-    public int shootCount = 30;
+    public static int shootCount = 1;
 
     public bool bouncing  = true;
     public float bounceRadius = 100f;                      
