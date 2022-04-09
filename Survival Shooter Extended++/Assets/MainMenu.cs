@@ -18,17 +18,18 @@ public class MainMenu : MonoBehaviour
     public void PlayWave()
     {
         GetName();
-        /*SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);*/
+        SceneManager.LoadScene(4);
     }
 
     public void ShowZenScoreBoard ()
     {
+        SceneManager.LoadScene(2);
         Debug.Log("Zen Scoreboard");
     }
 
     public void ShowWaveScoreBoard ()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Debug.Log("Wave Scoreboard");
     }
 

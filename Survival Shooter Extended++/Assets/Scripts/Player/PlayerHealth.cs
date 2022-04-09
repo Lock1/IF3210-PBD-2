@@ -59,6 +59,20 @@ public class PlayerHealth : MonoBehaviour
         connection.Close();
     }
 
+    public void InsertWaveScore()
+    {
+        using var connection = new SqliteConnection(dbName);
+        connection.Open();
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = "INSERT INTO wave_scoreboards (name, num_wave, score) VALUES ('" + PlayerPrefs.GetString("NICKNAME") + "', '" + ScoreManager.wave + "', '" + ScoreManager.score + "');";
+            command.ExecuteNonQuery();
+        }
+
+        connection.Close();
+    }
+
     void Update()
     {
         if (updating) {
@@ -127,6 +141,9 @@ public class PlayerHealth : MonoBehaviour
         
         gameover.SetActive(true);
 
-        InsertZenScore(PlayerPrefs.GetString("NICKNAME"), ((int) survivalDuration / 60) + ":" + ((int) survivalDuration % 60));
+        if (type == "Zen")
+            InsertZenScore(PlayerPrefs.GetString("NICKNAME"), ((int) survivalDuration / 60) + ":" + ((int) survivalDuration % 60));
+        else
+            InsertWaveScore();
     }
 }

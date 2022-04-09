@@ -1138,7 +1138,7 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: b4c2a7f0c211e2b46bd85149e7fb8f07, type: 3}
   scroll: {fileID: 1663785585}
   font: {fileID: 12800000, guid: 46238fb1ad7a7a84ba8954c1c860994c, type: 3}
-  type: Zen
+  type: Wave
 --- !u!1 &2024817651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -26, y: -0.00103}
+  m_AnchoredPosition: {x: -12, y: -0.00103}
   m_SizeDelta: {x: 1476.1138, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2053888414

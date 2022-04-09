@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ScoreBoard/ZenScoreBoard.unity
     guid: 305a06de260720744b880a3ce6531237
+  - enabled: 1
+    path: Assets/ScoreBoard/WaveScoreBoard.unity
+    guid: 60cf2522a81129d4594a668f018526b0
   m_configObjects: {}
