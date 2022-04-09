@@ -138,7 +138,8 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        name.GetComponent<Text>().transform.position = new Vector3(-113, y-14, 0);
+        // name.GetComponent<Text>().transform.position = new Vector3(-113, y-14, 0);
+        name.GetComponent<Text>().transform.position = new Vector3(-37, y-14, 60);
 
         name.GetComponent<Text>().text = reader["name"].ToString();
         
@@ -161,7 +162,8 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
+        // name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
+        name.GetComponent<Text>().transform.position = new Vector3(100, y-14, 0);
 
         name.GetComponent<Text>().text = reader["time"].ToString();
         
