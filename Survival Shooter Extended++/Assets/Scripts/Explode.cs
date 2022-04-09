@@ -84,6 +84,7 @@ public class Explode : MonoBehaviour
             Vector3 forceVector = player.transform.position - transform.position;
             rb.AddForce(forceVector * 500);
 
+            WaveManager.enemyTrack.Remove(gameObject);
             Destroy(gameObject, 0f);
         }
     }

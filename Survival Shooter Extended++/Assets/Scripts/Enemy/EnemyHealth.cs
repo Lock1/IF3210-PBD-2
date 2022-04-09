@@ -72,6 +72,10 @@ public class EnemyHealth : MonoBehaviour
         if (type == "Boss") {
             // TODO : Trigger power up
         }
+    
+        WaveManager.enemyTrack.Remove(gameObject);
+        
+        
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }
