@@ -24,6 +24,10 @@ public class WaveManager : MonoBehaviour
             return;
         }
         Debug.Log(enemyTrack.Count);
+
+        if (currentWave == 16)
+            playerHealth.currentHealth = 0f;
+
         if (enemyTrack.Count == 0) {
             weight += 3;
             if (currentWave % 3 == 0) {

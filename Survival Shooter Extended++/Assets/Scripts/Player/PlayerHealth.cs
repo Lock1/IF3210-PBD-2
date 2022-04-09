@@ -101,7 +101,10 @@ public class PlayerHealth : MonoBehaviour
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
         
-        
+        if (currentHealth <= 0 && !isDead)
+        {
+            Death();
+        }
 
         damaged = false;
     }
