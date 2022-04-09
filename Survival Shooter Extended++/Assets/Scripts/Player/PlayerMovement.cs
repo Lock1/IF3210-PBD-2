@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody playerRigidbody;
     int floorMask;
     float camRayLength = 100f;
+    float timer;
 
     private void Awake() {
         //mendapatkan nilai mask dari layer yang bernama Floor
@@ -14,19 +15,27 @@ public class PlayerMovement : MonoBehaviour
         
         //Mendapatkan komponen Animator
         anim = GetComponent<Animator>();
-        
+        timer = 0f;
         //Mendapatkan komponen Rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate() {
         SpeedManager.speed = (int) speed;
-
+        timer += Time.deltaTime;
         // Mendapatkan nilai input horizontal
         float h = Input.GetAxisRaw("Horizontal");
         
         // Mendapatkan nilai input vertical
         float v = Input.GetAxisRaw("Vertical");
+
+
+        float j = Input.GetAxisRaw("Jump");
+
+        if (j > 0 && timer > 3f) {
+            playerRigidbody.AddForce(new Vector3(0f, 500f, 0f));
+            timer = 0f;
+        }
 
         Move(h, v);
         Turning();
