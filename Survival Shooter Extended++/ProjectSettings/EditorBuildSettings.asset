@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ScoreBoard/WaveScoreBoard.unity
     guid: 60cf2522a81129d4594a668f018526b0
+  - enabled: 1
+    path: Assets/BattlegroundWave.unity
+    guid: 3354f8048bc8ad847915560376dc2aa8
   m_configObjects: {}
