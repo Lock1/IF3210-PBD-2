@@ -387,6 +387,8 @@ Transform:
   - {fileID: 2043062462}
   - {fileID: 1163488945}
   - {fileID: 63081345}
+  - {fileID: 1455692880}
+  - {fileID: 610975335}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7078,6 +7080,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1992353850}
   smoothing: 5
+--- !u!1 &610975334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610975335}
+  - component: {fileID: 610975336}
+  m_Layer: 0
+  m_Name: ZombearManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610975335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610975334}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 132446961}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &610975336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610975334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a99222b1e4a384e923ac7e86efc709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 1405668855}
+  enemy: {fileID: 100000, guid: 3688f3f3f312c984fa78e00c09819e6c, type: 3}
+  spawnTime: 3
+  spawnPoints:
+  - {fileID: 1294621106}
+  - {fileID: 1695674188}
+  - {fileID: 350771612}
+  - {fileID: 445131671}
+  - {fileID: 1984752286}
+  - {fileID: 1385525170}
+  - {fileID: 1834844582}
+  - {fileID: 1759947176}
 --- !u!1 &640447440
 GameObject:
   m_ObjectHideFlags: 0
@@ -8576,7 +8633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 1405668855}
   enemy: {fileID: 684844848393580771, guid: e5171f72421770240bd7c3989fe351e3, type: 3}
-  spawnTime: 0.5
+  spawnTime: 1
   spawnPoints:
   - {fileID: 1294621106}
   - {fileID: 1695674188}
@@ -9650,6 +9707,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439401806}
   m_CullTransparentMesh: 1
+--- !u!1 &1455692879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455692880}
+  - component: {fileID: 1455692881}
+  m_Layer: 0
+  m_Name: HellephantManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1455692880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455692879}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 132446961}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1455692881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455692879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a99222b1e4a384e923ac7e86efc709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 1405668855}
+  enemy: {fileID: 153412, guid: f264ab47e25d0374ba89abced0b94b2a, type: 3}
+  spawnTime: 10
+  spawnPoints:
+  - {fileID: 1294621106}
+  - {fileID: 1695674188}
+  - {fileID: 350771612}
+  - {fileID: 445131671}
+  - {fileID: 1984752286}
+  - {fileID: 1385525170}
+  - {fileID: 1834844582}
+  - {fileID: 1759947176}
 --- !u!1 &1503038806
 GameObject:
   m_ObjectHideFlags: 0

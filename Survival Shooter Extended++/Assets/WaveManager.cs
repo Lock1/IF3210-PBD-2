@@ -40,7 +40,7 @@ public class WaveManager : MonoBehaviour
                 int used = 0;
 
                 while (used < weight) {
-                    int enemytype = Random.Range(0, enemies.Length - 1);
+                    int enemytype = Random.Range(0, enemies.Length - 2);
                     int sidx = Random.Range(0, spawnPoints.Length);
                     used += enemytype + 1;
                     enemyTrack.Add(Instantiate(enemies[enemytype], spawnPoints[sidx].position, spawnPoints[sidx].rotation));
@@ -51,7 +51,7 @@ public class WaveManager : MonoBehaviour
 
                 // Boss
                 while (used < weight) {
-                    int enemytype = 3;
+                    int enemytype = enemies.Length - 1;
                     int sidx = Random.Range(0, spawnPoints.Length);
                     used += enemytype + 1;
                     enemyTrack.Add(Instantiate(enemies[enemytype], spawnPoints[sidx].position, spawnPoints[sidx].rotation));
@@ -66,7 +66,7 @@ public class WaveManager : MonoBehaviour
             }
 
             currentWave++;
-            if (currentWave % 3 == 0)
+            if (currentWave != 1 && (currentWave - 1) % 3 == 0)
                 PlayerHealth.upgradeAvail++;
         }
         ScoreManager.wave = currentWave;

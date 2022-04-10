@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
         if (type == "Boss") {
-            currentHealth = ((int) ScoreManager.survivalDuration / 60 - 1) * 1000 + startingHealth;
+            currentHealth = ((int) ScoreManager.survivalDuration / 60) * 1000 + startingHealth;
         }
         else
             currentHealth = startingHealth;
@@ -75,7 +75,7 @@ public class EnemyHealth : MonoBehaviour
     
         WaveManager.enemyTrack.Remove(gameObject);
         
-        
+        StartSinking();
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }
