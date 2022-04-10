@@ -18,42 +18,11 @@ public class ScoreBoardDb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // DeleteTable();
-        CreateZenTable();
-        CreateWaveTable();
-        /*InsertZenScore("Test", "20:00");*/
+
         if (type == "Zen")
             ShowScoreBoards();
         else
             ShowScoreBoards2();
-    }
-
-    public void CreateZenTable()
-    {
-        using var connection = new SqliteConnection(dbName);
-        connection.Open();
-
-        using (var command = connection.CreateCommand())
-        {
-            command.CommandText = "CREATE TABLE IF NOT EXISTS zen_scoreboards (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), time VARCHAR(255));";
-            command.ExecuteNonQuery();
-        }
-
-        connection.Close();
-    }
-
-    public void CreateWaveTable()
-    {
-        using var connection = new SqliteConnection(dbName);
-        connection.Open();
-
-        using (var command = connection.CreateCommand())
-        {
-            command.CommandText = "CREATE TABLE IF NOT EXISTS wave_scoreboards (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), num_wave INT, score INT);";
-            command.ExecuteNonQuery();
-        }
-
-        connection.Close();
     }
 
     public void DeleteTable()
@@ -100,8 +69,6 @@ public class ScoreBoardDb : MonoBehaviour
 
                 addTimeObject(rect, i, reader);
 
-                // TODO: add text and score
-
                 i++;
             }
 
@@ -141,12 +108,8 @@ public class ScoreBoardDb : MonoBehaviour
                 rect.GetComponent<Image>().rectTransform.localScale = new Vector3(1, 1, 1);
 
                 addNameObject(rect, i, reader);
-
-                // addTimeObject(rect, i, reader);
                 addWaveObject(rect, i, reader);
                 addScoreObject(rect, i, reader);
-
-                // TODO: add text and score
 
                 i++;
             }
@@ -188,7 +151,6 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        // name.GetComponent<Text>().transform.position = new Vector3(-113, y-14, 0);
         name.GetComponent<Text>().transform.position = new Vector3(-37, y-14, 60);
 
         name.GetComponent<Text>().text = reader["name"].ToString();
@@ -212,7 +174,6 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        // name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
         name.GetComponent<Text>().transform.position = new Vector3(100, y-14, 0);
 
         name.GetComponent<Text>().text = reader["time"].ToString();
@@ -236,7 +197,6 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        // name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
         name.GetComponent<Text>().transform.position = new Vector3(70, y-14, 0);
 
         name.GetComponent<Text>().text = reader["num_wave"].ToString();
@@ -260,7 +220,6 @@ public class ScoreBoardDb : MonoBehaviour
 
         float y = name.GetComponent<Text>().transform.position.y;
 
-        // name.GetComponent<Text>().transform.position = new Vector3(218, y-14, 0);
         name.GetComponent<Text>().transform.position = new Vector3(100, y-14, 0);
 
         name.GetComponent<Text>().text = reader["score"].ToString();
